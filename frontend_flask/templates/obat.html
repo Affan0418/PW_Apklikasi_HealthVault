@@ -1,0 +1,29 @@
+{% extends 'base.html' %} {% block content %}
+<h4>Data Obat</h4>
+<a href="/obat/tambah" class="btn btn-success mb-3">+ Tambah Data</a>
+<table class="table table-bordered">
+  <thead class="table-primary">
+    <tr>
+      <th>No</th>
+      <th>Nama Obat</th>
+      <th>Harga</th>
+      <th>Keterangan</th>
+      <th>Aksi</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for o in obat %}
+    <tr>
+      <td>{{ loop.index }}</td>
+      <td>{{ o.nama_obat }}</td>
+      <td>{{ o.harga }}</td>
+      <td>{{ o.keterangan }}</td>
+      <td>
+        <a href="/obat/edit/{{ o.id }}" class="btn btn-warning btn-sm">✏️</a>
+        <a href="/obat/hapus/{{ o.id }}" class="btn btn-danger btn-sm">🗑️</a>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

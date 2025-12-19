@@ -1,0 +1,39 @@
+{% extends 'base.html' %} {% block content %}
+<div class="container mt-4">
+  <h2>Selamat Datang di HealthVault</h2>
+  <p>Ringkasan data klinik Anda saat ini:</p>
+
+  <div class="row mt-4">
+    <div class="col-md-4">
+      <div class="card text-white bg-primary mb-3">
+        <div class="card-body text-center">
+          <h5 class="card-title">Total Pasien</h5>
+          <p class="display-4">{{ total_pasien }}</p>
+          <a href="/pasien" class="btn btn-light btn-sm">Lihat Detail</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="card text-white bg-success mb-3">
+        <div class="card-body text-center">
+          <h5 class="card-title">Total Dokter</h5>
+          <p class="display-4">{{ total_dokter }}</p>
+          <a href="/dokter" class="btn btn-light btn-sm">Lihat Detail</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="card text-white bg-warning mb-3">
+        <div class="card-body text-center">
+          <h5 class="card-title">Total Obat</h5>
+          <p class="display-4">{{ total_obat }}</p>
+          <a href="/obat" class="btn btn-light btn-sm">Lihat Detail</a>
+        </div>
+      </div>
+    </div>
+    
+  </div>
+</div>
+{% endblock %}

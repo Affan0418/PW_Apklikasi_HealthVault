@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="card p-4">
+    <h4>{% if pasien %}Edit{% else %}Tambah{% endif %} Pasien</h4>
+    <hr>
+    <form action="{% if pasien %}/pasien/update/{{ pasien.id }}{% else %}/pasien/store{% endif %}" method="POST">
+        <div class="mb-3">
+            <label>Nama Pasien</label>
+            <input type="text" name="nama" class="form-control" value="{{ pasien.nama if pasien else '' }}" required>
+        </div>
+        <div class="mb-3">
+            <label>Umur</label>
+            <input type="number" name="umur" class="form-control" value="{{ pasien.umur if pasien else '' }}" required>
+        </div>
+        <div class="mb-3">
+            <label>Gender</label>
+            <select name="gender" class="form-control">
+                <option value="Laki-laki" {% if pasien and pasien.gender == 'Laki-laki' %}selected{% endif %}>Laki-laki</option>
+                <option value="Perempuan" {% if pasien and pasien.gender == 'Perempuan' %}selected{% endif %}>Perempuan</option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label>Email</label>
+            <input type="email" name="email" class="form-control" value="{{ pasien.email if pasien else '' }}">
+        </div>
+        <div class="mb-3">
+            <label>Alamat</label>
+            <textarea name="alamat" class="form-control">{{ pasien.alamat if pasien else '' }}</textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Simpan Data</button>
+        <a href="/pasien" class="btn btn-secondary">Batal</a>
+    </form>
+</div>
+{% endblock %}

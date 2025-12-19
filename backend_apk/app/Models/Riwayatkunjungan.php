@@ -12,10 +12,11 @@ class Riwayatkunjungan extends Model
         'pasien_id',
         'dokter_id',
         'tanggal_kunjungan',
-        'keluhan',
+        'keluhan_pasien',
         'diagnosis',
-        'tindakan',
-        'resep'
+        'tindakan_medis',
+        'obat_diberikan',
+        'catatan_tambahan'
     ];
 
     public function pasien()

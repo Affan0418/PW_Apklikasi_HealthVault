@@ -14,10 +14,8 @@ return new class extends Migration
         Schema::create('obat', function (Blueprint $table) {
             $table->id();
             $table->string('nama_obat', 150);
-            $table->string('jenis_obat', 100)->nullable();
-            $table->integer('harga'); // rupiah
-            $table->integer('stok');
-            $table->text('keterangan')->nullable();
+            $table->integer('harga');
+            $table->text('keterangan');
             $table->timestamps();
         });
 

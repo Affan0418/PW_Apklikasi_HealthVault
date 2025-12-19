@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('nama', 100);
             $table->string('spesialis', 100);
-            $table->string('email', 100)->nullable();
-            $table->string('no_telepon', 20)->nullable();
+            $table->enum('gender', ['Laki-laki', 'Perempuan']);
+            $table->string('email', 20)->nullable();
             $table->text('alamat')->nullable();
             $table->timestamps();
         });

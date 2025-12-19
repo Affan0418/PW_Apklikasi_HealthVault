@@ -1,0 +1,57 @@
+{% extends 'base.html' %} {% block content %}
+<div class="container-fluid mt-4">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h4><i class="bi bi-clock-history"></i> Riwayat Kunjungan</h4>
+    <a href="/kunjungan/tambah" class="btn btn-success">+ Tambah Data</a>
+  </div>
+
+  <div class="card shadow-sm">
+    <div class="card-body">
+      <table class="table table-hover table-bordered">
+        <thead class="table-primary text-center">
+          <tr>
+            <th>No</th>
+            <th>Tanggal Kunjungan</th>
+            <th>Keluhan Pasien</th>
+            <th>Diagnosis</th>
+            <th>Tindakan Medis</th>
+            <th>Obat yang Diberikan</th>
+            <th>Catatan Tambahan</th>
+            <th>Aksi</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for k in kunjungan %}
+          <tr>
+            <td class="text-center">{{ loop.index }}</td>
+            <td>{{ k.tanggal_kunjungan }}</td>
+            <td>{{ k.keluhan_pasien }}</td>
+            <td>{{ k.diagnosis }}</td>
+            <td>{{ k.tindakan_medis }}</td>
+            <td>{{ k.obat_diberikan }}</td>
+            <td>{{ k.catatan_tambahan or '-' }}</td>
+            <td class="text-center">
+              <a
+                href="/kunjungan/edit/{{ k.id }}"
+                class="btn btn-warning btn-sm"
+                >✏️</a
+              >
+              <a
+                href="/kunjungan/hapus/{{ k.id }}"
+                class="btn btn-danger btn-sm"
+                onclick="return confirm('Hapus riwayat ini?')"
+                >🗑️</a
+              >
+            </td>
+          </tr>
+          {% else %}
+          <tr>
+            <td colspan="8" class="text-center">Belum ada data kunjungan.</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %}

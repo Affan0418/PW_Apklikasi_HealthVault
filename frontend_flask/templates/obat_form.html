@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="card p-4">
+    <h4>Tambah / Edit Obat</h4>
+    <form action="{% if obat %}/obat/update/{{ obat.id }}{% else %}/obat/store{% endif %}" method="POST">
+        <div class="mb-3">
+            <label>Nama Obat</label>
+            <input type="text" name="nama_obat" class="form-control" value="{{ obat.nama_obat if obat else '' }}" required>
+        </div>
+        <div class="mb-3">
+            <label>Harga</label>
+            <input type="number" name="harga" class="form-control" value="{{ obat.harga if obat else '' }}" required>
+        </div>
+        <div class="mb-3">
+            <label>Keterangan</label>
+            <input type="text" name="keterangan" class="form-control" value="{{ obat.keterangan if obat else '' }}" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Simpan Data</button>
+        <a href="/obat" class="btn btn-secondary">Batal</a>
+    </form>
+</div>
+{% endblock %}

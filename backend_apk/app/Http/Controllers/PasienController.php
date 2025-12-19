@@ -9,7 +9,7 @@ class PasienController extends Controller
 {
     public function index()
     {
-        return Pasien::all();
+        return response()->json(\App\Models\Pasien::all());
     }
 
     public function store(Request $request)

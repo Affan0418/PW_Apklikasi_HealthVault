@@ -10,23 +10,13 @@ class ObatController extends Controller
     // GET /api/obat
     public function index()
     {
-        return response()->json(Obat::all());
+        return response()->json(\App\Models\Obat::all());
     }
 
     // POST /api/obat
     public function store(Request $request)
     {
-        $request->validate([
-            'nama_obat' => 'required|string|max:150',
-            'jenis_obat' => 'nullable|string|max:100',
-            'harga' => 'required|integer|min:0',
-            'stok' => 'required|integer|min:0',
-            'keterangan' => 'nullable|string'
-        ]);
-
-        $obat = Obat::create($request->all());
-
-        return response()->json($obat, 201);
+        return Obat::create($request->all());
     }
 
     // GET /api/obat/{id}

@@ -10,23 +10,13 @@ class DokterController extends Controller
     // GET /api/dokter
     public function index()
     {
-        return response()->json(Dokter::all());
+        return response()->json(\App\Models\Dokter::all());
     }
 
     // POST /api/dokter
     public function store(Request $request)
     {
-        $request->validate([
-            'nama' => 'required|string|max:100',
-            'spesialis' => 'required|string|max:100',
-            'email' => 'nullable|email',
-            'no_telepon' => 'nullable|string|max:20',
-            'alamat' => 'nullable|string'
-        ]);
-
-        $dokter = Dokter::create($request->all());
-
-        return response()->json($dokter, 201);
+        return Dokter::create($request->all());
     }
 
     // GET /api/dokter/{id}

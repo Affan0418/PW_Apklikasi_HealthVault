@@ -1,0 +1,71 @@
+{% extends 'base.html' %} {% block content %}
+<div class="container mt-4">
+  <div class="row">
+    <div class="col-md-8 mx-auto">
+      <div class="card shadow">
+        <div class="card-header bg-primary text-white">
+          <h5 class="mb-0">
+            <i class="bi bi-gear-fill me-2"></i> Pengaturan Akun
+          </h5>
+        </div>
+        <div class="card-body">
+          <div class="text-center mb-4">
+            <i
+              class="bi bi-person-circle"
+              style="font-size: 4rem; color: #0d6efd"
+            ></i>
+            <h4 class="mt-2">{{ session['nama'] }}</h4>
+            <span class="badge bg-info text-dark"
+              >{{ session['role']|upper }}</span
+            >
+          </div>
+
+          <hr />
+
+          <form>
+            <div class="mb-3">
+              <label class="form-label text-muted small">Email Pengguna</label>
+              <input
+                type="text"
+                class="form-control"
+                value="admin@gmail.com"
+                readonly
+                disabled
+              />
+              <div class="form-text">
+                Email tidak dapat diubah untuk saat ini.
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label text-muted small">Status Akses</label>
+              <input
+                type="text"
+                class="form-control"
+                value="Full Access"
+                readonly
+                disabled
+              />
+            </div>
+
+            <div class="alert alert-warning small d-flex align-items-center">
+              <i class="bi bi-exclamation-triangle-fill me-2"></i>
+              Fitur ubah kata sandi dan profil sedang dalam pengembangan.
+            </div>
+
+            <div class="d-grid mt-4">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                onclick="history.back()"
+              >
+                Kembali
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

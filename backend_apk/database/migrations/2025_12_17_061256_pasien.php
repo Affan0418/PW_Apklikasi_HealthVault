@@ -14,10 +14,9 @@ return new class extends Migration
         Schema::create('pasien', function (Blueprint $table) {
             $table->id();
             $table->string('nama', 100);
-            $table->date('tanggal_lahir');
+            $table->integer('umur');    
             $table->enum('gender', ['Laki-laki', 'Perempuan']);
             $table->string('email', 100)->nullable();
-            $table->string('no_telepon', 20)->nullable();
             $table->text('alamat');
             $table->timestamps();
         });

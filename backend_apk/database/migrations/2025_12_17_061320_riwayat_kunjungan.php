@@ -6,35 +6,28 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::create('riwayat_kunjungan', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('pasien_id')
-                  ->constrained('pasien')
-                  ->onDelete('cascade');
-
-            $table->foreignId('dokter_id')
-                  ->constrained('dokter')
-                  ->onDelete('cascade');
+            // Menghubungkan ke tabel pasien dan dokter
+            $table->foreignId('pasien_id')->constrained('pasien')->onDelete('cascade');
+            $table->foreignId('dokter_id')->constrained('dokter')->onDelete('cascade');
+            
+            // Kolom sesuai tabel yang diminta
             $table->date('tanggal_kunjungan');
-            $table->text('keluhan');
+            $table->text('keluhan_pasien');
             $table->text('diagnosis')->nullable();
-            $table->text('tindakan')->nullable();
-            $table->text('resep')->nullable(); // teks, tidak terhubung ke tabel obat
+            $table->text('tindakan_medis')->nullable();
+            $table->text('obat_diberikan')->nullable();
+            $table->text('catatan_tambahan')->nullable();
+            
             $table->timestamps();
         });
-
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
-        //
+        Schema::dropIfExists('riwayat_kunjungan');
     }
 };

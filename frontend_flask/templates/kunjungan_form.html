@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="card shadow">
+        <div class="card-header bg-primary text-white">
+            <h5 class="mb-0">{% if kunjungan %}Edit{% else %}Tambah{% endif %} Riwayat Kunjungan</h5>
+        </div>
+        <div class="card-body">
+            <form action="{% if kunjungan %}/kunjungan/update/{{ kunjungan.id }}{% else %}/kunjungan/store{% endif %}" method="POST">
+                
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Pilih Pasien</label>
+                        <select name="pasien_id" class="form-select" required>
+                            <option value="">-- Pilih Pasien --</option>
+                            {% for p in pasien %}
+                            <option value="{{ p.id }}" {% if kunjungan and kunjungan.pasien_id == p.id %}selected{% endif %}>
+                                {{ p.nama }}
+                            </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Pilih Dokter</label>
+                        <select name="dokter_id" class="form-select" required>
+                            <option value="">-- Pilih Dokter --</option>
+                            {% for d in dokter %}
+                            <option value="{{ d.id }}" {% if kunjungan and kunjungan.dokter_id == d.id %}selected{% endif %}>
+                                {{ d.nama }} ({{ d.spesialis }})
+                            </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Tanggal Kunjungan</label>
+                    <input type="date" name="tanggal_kunjungan" class="form-control" 
+                           value="{{ kunjungan.tanggal_kunjungan if kunjungan else '' }}" required>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Keluhan Pasien</label>
+                    <textarea name="keluhan_pasien" class="form-control" rows="2" required>{{ kunjungan.keluhan_pasien if kunjungan else '' }}</textarea>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Diagnosis</label>
+                        <input type="text" name="diagnosis" class="form-control" value="{{ kunjungan.diagnosis if kunjungan else '' }}">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Tindakan Medis</label>
+                        <input type="text" name="tindakan_medis" class="form-control" value="{{ kunjungan.tindakan_medis if kunjungan else '' }}">
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Obat yang Diberikan</label>
+                    <textarea name="obat_diberikan" class="form-control" rows="2">{{ kunjungan.obat_diberikan if kunjungan else '' }}</textarea>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Catatan Tambahan</label>
+                    <input type="text" name="catatan_tambahan" class="form-control" value="{{ kunjungan.catatan_tambahan if kunjungan else '' }}">
+                </div>
+
+                <div class="mt-4">
+                    <button type="submit" class="btn btn-primary px-4">Simpan</button>
+                    <a href="/kunjungan" class="btn btn-secondary px-4">Batal</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
