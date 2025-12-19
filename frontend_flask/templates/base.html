@@ -68,7 +68,7 @@
   </head>
   <body>
     <div class="sidebar">
-      <h5><i class="bi bi-hospital"></i> Klinik MDP</h5>
+      <h5><i class="bi bi-hospital"></i> Klinik HealthVault</h5>
       <a
         href="/dashboard"
         class="{{ 'active' if request.path == '/dashboard' }}"
@@ -79,11 +79,13 @@
         class="{{ 'active' if '/pasien' in request.path }}"
         ><i class="bi bi-people me-2"></i> Data Pasien</a
       >
+      {% if session['role'] == 'admin' %}
       <a
         href="{{ url_for('dokter') }}"
         class="{{ 'active' if '/dokter' in request.path }}"
         ><i class="bi bi-person-badge me-2"></i> Data Dokter</a
       >
+      {% endif %}
       <a
         href="{{ url_for('obat') }}"
         class="{{ 'active' if '/obat' in request.path }}"
@@ -110,12 +112,15 @@
           <i class="bi bi-list d-md-none"></i>
         </div>
         <div class="dropdown">
-          <span class="me-3">
+          <a
+            href="{{ url_for('profile') }}"
+            class="text-white text-decoration-none me-3">
+          >
             <i class="bi bi-person-circle me-1"></i> {{ session['nama'] }}
             <span class="badge bg-light text-primary ms-1 small"
               >{{ session['role']|upper }}</span
             >
-          </span>
+          </a>
           <a href="/logout" class="btn btn-sm btn-outline-light">
             <i class="bi bi-box-arrow-right"></i> Keluar
           </a>

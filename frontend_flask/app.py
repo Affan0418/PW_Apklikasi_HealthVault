@@ -30,6 +30,7 @@ def login():
             # Cek User (Sederhana: password123, idealnya pakai hash check)
             if user and password == 'password123': 
                 session['logged_in'] = True
+                session['user_id'] = user['id']
                 session['nama'] = user['nama']
                 session['role'] = user['role']
                 return redirect(url_for('dashboard'))
@@ -209,6 +210,50 @@ def pengaturan():
         flash("Akses ditolak! Menu ini hanya untuk Admin.")
         return redirect(url_for('dashboard'))
     return render_template('pengaturan.html')
+
+# ================= PROFILE =================
+@app.route('/profile')
+def profile():
+    if not session.get('logged_in'):
+        return redirect(url_for('login'))
+    
+    user_id = session.get('user_id')
+    
+    try:
+        # Flask memanggil route yang baru saja kita buat di Laravel tadi
+        res = requests.get(f'http://localhost:8000/api/users/{user_id}')
+        if res.status_code == 200:
+            user_data = res.json()
+            return render_template('profile.html', user=user_data)
+        else:
+            flash("Data user tidak ditemukan di server.")
+            return redirect(url_for('dashboard'))
+    except Exception as e:
+        print(f"Error: {e}")
+        flash("Gagal terhubung ke server backend.")
+        return redirect(url_for('dashboard'))
+
+@app.route('/profile/update', methods=['POST'])
+def profile_update():
+    if session.get('role') != 'admin':
+        flash("Akses ditolak! Hanya Admin yang dapat mengubah profil.")
+        return redirect(url_for('profile'))
+    
+    user_id = session.get('user_id')
+    data = {
+        'nama': request.form.get('nama'),
+        'email': request.form.get('email'),
+        'no_telepon': request.form.get('no_telepon')
+    }
+    
+    try:
+        requests.put(f'http://localhost:8000/api/users/{user_id}', data=data)
+        session['nama'] = data['nama'] 
+        flash("Profil berhasil diperbarui!")
+    except:
+        flash("Gagal memperbarui profil.")
+        
+    return redirect(url_for('profile'))
 
 if __name__ == '__main__':
     app.run(debug=True)
