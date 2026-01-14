@@ -32,6 +32,7 @@ def login():
                 session['logged_in'] = True
                 session['user_id'] = user['id']
                 session['nama'] = user['nama']
+                session['email'] = user['email']
                 session['role'] = user['role']
                 return redirect(url_for('dashboard'))
             else:
@@ -101,34 +102,70 @@ def pasien_hapus(id):
 # ================= DOKTER =================
 @app.route('/dokter')
 def dokter():
-    if not session.get('logged_in'): return redirect(url_for('login'))
+    # 1. Cek apakah sudah login
+    if not session.get('logged_in'): 
+        return redirect(url_for('login'))
+    
+    # 2. Cek apakah role adalah ADMIN
+    if session.get('role') != 'admin':
+        flash("Akses ditolak! Anda tidak memiliki izin untuk mengakses halaman Dokter.")
+        return redirect(url_for('dashboard'))
+
+    # 3. Ambil data jika lolos pengecekan
     res = requests.get('http://localhost:8000/api/dokter')
     return render_template('dokter.html', dokter=res.json())
 
 @app.route('/dokter/tambah')
 def dokter_tambah():
-    if not session.get('logged_in'): return redirect(url_for('login'))
+    if not session.get('logged_in'): 
+        return redirect(url_for('login'))
+        
+    if session.get('role') != 'admin':
+        flash("Akses ditolak!")
+        return redirect(url_for('dashboard'))
+
     return render_template('dokter_form.html')
 
 @app.route('/dokter/store', methods=['POST'])
 def dokter_store():
+    if not session.get('logged_in') or session.get('role') != 'admin':
+        return redirect(url_for('dashboard'))
+
     requests.post('http://localhost:8000/api/dokter', data=request.form)
+    flash("Data dokter berhasil ditambahkan.")
     return redirect(url_for('dokter'))
 
 @app.route('/dokter/edit/<id>')
 def dokter_edit(id):
-    if not session.get('logged_in'): return redirect(url_for('login'))
+    if not session.get('logged_in'): 
+        return redirect(url_for('login'))
+        
+    if session.get('role') != 'admin':
+        flash("Akses ditolak!")
+        return redirect(url_for('dashboard'))
+
     res = requests.get(f'http://localhost:8000/api/dokter/{id}')
     return render_template('dokter_form.html', dokter=res.json())
 
 @app.route('/dokter/update/<id>', methods=['POST'])
 def dokter_update(id):
+    # Proteksi proses update
+    if not session.get('logged_in') or session.get('role') != 'admin':
+        return redirect(url_for('dashboard'))
+
     requests.put(f'http://localhost:8000/api/dokter/{id}', data=request.form)
+    flash("Data dokter berhasil diperbarui.")
     return redirect(url_for('dokter'))
 
 @app.route('/dokter/hapus/<id>')
 def dokter_hapus(id):
+    # Proteksi proses hapus
+    if not session.get('logged_in') or session.get('role') != 'admin':
+        flash("Akses ditolak!")
+        return redirect(url_for('dashboard'))
+
     requests.delete(f'http://localhost:8000/api/dokter/{id}')
+    flash("Data dokter berhasil dihapus.")
     return redirect(url_for('dokter'))
 
 # ================= OBAT =================
@@ -249,6 +286,7 @@ def profile_update():
     try:
         requests.put(f'http://localhost:8000/api/users/{user_id}', data=data)
         session['nama'] = data['nama'] 
+        session['email'] = data['email'] 
         flash("Profil berhasil diperbarui!")
     except:
         flash("Gagal memperbarui profil.")

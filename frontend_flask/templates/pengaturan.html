@@ -28,13 +28,10 @@
               <input
                 type="text"
                 class="form-control"
-                value="admin@gmail.com"
+                value="{{ session['email'] }}"
                 readonly
                 disabled
               />
-              <div class="form-text">
-                Email tidak dapat diubah untuk saat ini.
-              </div>
             </div>
 
             <div class="mb-3">
@@ -46,11 +43,6 @@
                 readonly
                 disabled
               />
-            </div>
-
-            <div class="alert alert-warning small d-flex align-items-center">
-              <i class="bi bi-exclamation-triangle-fill me-2"></i>
-              Fitur ubah kata sandi dan profil sedang dalam pengembangan.
             </div>
 
             <div class="d-grid mt-4">

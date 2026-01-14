@@ -13,7 +13,9 @@ class RiwayatKunjunganController extends Controller
     public function index()
     {
         // Mengambil semua data kunjungan
-        return response()->json(RiwayatKunjungan::all());
+       $data = RiwayatKunjungan::with(['pasien', 'dokter'])->latest()->get();
+        
+        return response()->json($data);
     }
 
     /**
@@ -30,7 +32,7 @@ class RiwayatKunjunganController extends Controller
      */
     public function show($id)
     {
-        $kunjungan = RiwayatKunjungan::findOrFail($id);
+        $kunjungan = RiwayatKunjungan::with(['pasien', 'dokter'])->findOrFail($id);
         return response()->json($kunjungan);
     }
 
@@ -42,14 +44,12 @@ class RiwayatKunjunganController extends Controller
     {
         $kunjungan = RiwayatKunjungan::findOrFail($id);
 
-        // Validasi disesuaikan dengan nama kolom di tabel HTML (image_58d75d.png)
         $request->validate([
             'tanggal_kunjungan' => 'sometimes|date',
             'keluhan_pasien'    => 'sometimes|string',
             'diagnosis'         => 'sometimes|string',
             'tindakan_medis'    => 'sometimes|string',
-            'obat_diberikan'    => 'nullable|string',
-            'catatan_tambahan'  => 'nullable|string'
+            'obat_diberikan'    => 'nullable|string'
         ]);
 
         $kunjungan->update($request->all());

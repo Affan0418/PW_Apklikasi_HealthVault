@@ -21,11 +21,11 @@ class Riwayatkunjungan extends Model
 
     public function pasien()
     {
-        return $this->belongsTo(Pasien::class);
+        return $this->belongsTo(Pasien::class, 'pasien_id');
     }
 
     public function dokter()
     {
-        return $this->belongsTo(Dokter::class);
+        return $this->belongsTo(Pasien::class, 'pasien_id');
     }
 }

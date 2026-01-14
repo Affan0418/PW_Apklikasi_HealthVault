@@ -11,12 +11,12 @@
         <thead class="table-primary text-center">
           <tr>
             <th>No</th>
+            <th>Nama Pasien</th>
             <th>Tanggal Kunjungan</th>
             <th>Keluhan Pasien</th>
             <th>Diagnosis</th>
             <th>Tindakan Medis</th>
             <th>Obat yang Diberikan</th>
-            <th>Catatan Tambahan</th>
             <th>Aksi</th>
           </tr>
         </thead>
@@ -24,12 +24,12 @@
           {% for k in kunjungan %}
           <tr>
             <td class="text-center">{{ loop.index }}</td>
+            <td>{{ k.pasien.nama if k.pasien else 'Pasien Terhapus' }}</td>
             <td>{{ k.tanggal_kunjungan }}</td>
             <td>{{ k.keluhan_pasien }}</td>
             <td>{{ k.diagnosis }}</td>
             <td>{{ k.tindakan_medis }}</td>
             <td>{{ k.obat_diberikan }}</td>
-            <td>{{ k.catatan_tambahan or '-' }}</td>
             <td class="text-center">
               <a
                 href="/kunjungan/edit/{{ k.id }}"
