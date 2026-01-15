@@ -1,4 +1,6 @@
-{% extends 'base.html' %} {% block content %}
+{% extends 'base.html' %} 
+
+{% block content %}
 <div class="container mt-4">
   <div class="row">
     <div class="col-md-8 mx-auto">
@@ -9,51 +11,50 @@
           </h5>
         </div>
         <div class="card-body">
-          <div class="text-center mb-4">
-            <i
-              class="bi bi-person-circle"
-              style="font-size: 4rem; color: #0d6efd"
-            ></i>
-            <h4 class="mt-2">{{ session['nama'] }}</h4>
-            <span class="badge bg-info text-dark"
-              >{{ session['role']|upper }}</span
-            >
-          </div>
-
-          <hr />
-
-          <form>
+          
+          <form action="/profile/update" method="POST">
+            
             <div class="mb-3">
-              <label class="form-label text-muted small">Email Pengguna</label>
-              <input
-                type="text"
-                class="form-control"
-                value="{{ session['email'] }}"
-                readonly
-                disabled
-              />
-            </div>
-
-            <div class="mb-3">
-              <label class="form-label text-muted small">Status Akses</label>
-              <input
-                type="text"
-                class="form-control"
-                value="Full Access"
-                readonly
-                disabled
-              />
-            </div>
-
-            <div class="d-grid mt-4">
-              <button
-                type="button"
-                class="btn btn-secondary"
-                onclick="history.back()"
+              <label class="form-label">Nama Lengkap</label>
+              <input 
+                type="text" 
+                name="nama" 
+                class="form-control" 
+                value="{{ session['nama'] }}" 
+                required
               >
-                Kembali
-              </button>
             </div>
+
+            <div class="mb-3">
+              <label class="form-label">Email Address</label>
+              <input 
+                type="email" 
+                name="email" 
+                class="form-control" 
+                value="{{ session['email'] }}" 
+                required
+              >
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">No. Telepon</label>
+              <input 
+                type="text" 
+                name="no_telepon" 
+                class="form-control" 
+                value="{{ session.get('no_telepon', '-') }}"
+              >
+            </div>
+
+            <div class="alert alert-info small">
+              <i class="bi bi-info-circle"></i> Pastikan data yang Anda masukkan sudah benar sebelum menyimpan.
+            </div>
+
+            <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-4">
+              <button type="button" class="btn btn-secondary me-md-2" onclick="history.back()">Batal</button>
+              <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
+            </div>
+
           </form>
         </div>
       </div>

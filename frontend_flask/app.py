@@ -241,11 +241,32 @@ def kunjungan_hapus(id):
 # ================= PENGATURAN =================
 @app.route('/pengaturan')
 def pengaturan():
-    if not session.get('logged_in'): return redirect(url_for('login'))
-    # Hanya 'admin' yang boleh masuk ke menu ini
+    # 1. Cek Login
+    if not session.get('logged_in'): 
+        return redirect(url_for('login'))
+    
+    # 2. Cek Role (Hanya Admin)
     if session.get('role') != 'admin':
         flash("Akses ditolak! Menu ini hanya untuk Admin.")
         return redirect(url_for('dashboard'))
+
+    # 3. AMBIL DATA TERBARU DARI API (Penting untuk Pre-fill Form)
+    user_id = session.get('user_id')
+    try:
+        res = requests.get(f'http://localhost:8000/api/users/{user_id}')
+        if res.status_code == 200:
+            user_data = res.json()
+            
+            # Update session agar form di HTML (value="{{ session['...'] }}") terisi otomatis
+            session['nama'] = user_data['nama']
+            session['email'] = user_data['email']
+            session['no_telepon'] = user_data.get('no_telepon', '-') 
+            
+            return render_template('pengaturan.html')
+    except Exception as e:
+        print(f"Error: {e}")
+    
+    # Jika gagal ambil data, tetap render tapi mungkin data session agak lama
     return render_template('pengaturan.html')
 
 # ================= PROFILE =================
@@ -273,8 +294,8 @@ def profile():
 @app.route('/profile/update', methods=['POST'])
 def profile_update():
     if session.get('role') != 'admin':
-        flash("Akses ditolak! Hanya Admin yang dapat mengubah profil.")
-        return redirect(url_for('profile'))
+        flash("Akses ditolak!")
+        return redirect(url_for('dashboard')) # Redirect dashboard saja kalau dilarang
     
     user_id = session.get('user_id')
     data = {
@@ -284,14 +305,21 @@ def profile_update():
     }
     
     try:
+        # Kirim data ke Laravel
         requests.put(f'http://localhost:8000/api/users/{user_id}', data=data)
+        
+        # Update Session Flask (Supaya langsung berubah tanpa logout)
         session['nama'] = data['nama'] 
         session['email'] = data['email'] 
-        flash("Profil berhasil diperbarui!")
+        session['no_telepon'] = data['no_telepon']
+
+        flash("Profil berhasil diperbarui!", "success") # Tambahkan kategori 'success' (opsional)
     except:
-        flash("Gagal memperbarui profil.")
+        flash("Gagal memperbarui profil.", "danger")
         
-    return redirect(url_for('profile'))
+    # === BAGIAN INI DIUBAH ===
+    # Redirect kembali ke 'pengaturan' agar user melihat form dan pesan suksesnya
+    return redirect(url_for('pengaturan'))
 
 if __name__ == '__main__':
     app.run(debug=True)

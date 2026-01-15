@@ -7,64 +7,38 @@
             <div class="card shadow-lg border-0">
                 <div class="card-header bg-primary text-white text-center py-4">
                     <i class="bi bi-person-circle" style="font-size: 5rem;"></i>
-                    <h3 class="mt-2 mb-0">{{ user.nama }}</h3>
-                    <p class="badge bg-light text-primary mt-2">{{ user.role|upper }}</p>
+                    <h3 class="mt-2 mb-0">{{ session['nama'] }}</h3>
+                    <p class="badge bg-light text-primary mt-2">{{ session['role']|upper }}</p>
                 </div>
+
                 <div class="card-body p-4">
-                    <div class="d-flex justify-content-between align-items-center border-bottom pb-2 mb-3">
-                        <h5 class="text-muted mb-0">Informasi Akun</h5>
-                        
-                        {% if session['role'] == 'admin' %}
-                        <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#editProfileModal">
-                            <i class="bi bi-pencil-square"></i> Edit Profil
-                        </button>
-                        {% endif %}
+                    <div class="border-bottom pb-2 mb-3">
+                        <h5 class="text-muted mb-0 text-center">Informasi Akun</h5>
                     </div>
                     
                     <div class="mb-3 mt-3">
                         <label class="small text-muted d-block">Email Address</label>
-                        <span class="h6">{{ user.email }}</span>
+                        <span class="h5">{{ session['email'] }}</span>
                     </div>
 
                     <div class="mb-3">
                         <label class="small text-muted d-block">No. Telepon</label>
-                        <span class="h6">{{ user.no_telepon if user.no_telepon else '-' }}</span>
+                        <span class="h5">{{ session.get('no_telepon', '-') }}</span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="small text-muted d-block">Status Akun</label>
+                        <span class="badge bg-success">Active / Full Access</span>
                     </div>
 
                     <div class="d-grid mt-4">
-                        <button onclick="history.back()" class="btn btn-outline-secondary">Kembali</button>
+                        <a href="/pengaturan" class="btn btn-outline-primary">
+                            <i class="bi bi-gear"></i> Pergi ke Pengaturan
+                        </a>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-</div>
-
-<div class="modal fade" id="editProfileModal" tabindex="-1">
-    <div class="modal-dialog">
-        <form action="/profile/update" method="POST" class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Edit Profil</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-            </div>
-            <div class="modal-body">
-                <div class="mb-3">
-                    <label>Nama Lengkap</label>
-                    <input type="text" name="nama" class="form-control" value="{{ user.nama }}" required>
-                </div>
-                <div class="mb-3">
-                    <label>Email</label>
-                    <input type="email" name="email" class="form-control" value="{{ user.email }}" required>
-                </div>
-                <div class="mb-3">
-                    <label>No. Telepon</label>
-                    <input type="text" name="no_telepon" class="form-control" value="{{ user.no_telepon }}">
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
-            </div>
-        </form>
     </div>
 </div>
 {% endblock %}

@@ -99,8 +99,8 @@
 
       {% if session['role'] == 'admin' %}
       <a
-        href="/pengaturan"
-        class="{{ 'active' if request.path == '/pengaturan' }}"
+        href="/profile"
+        class="{{ 'active' if request.path == '/profile' }}"
         ><i class="bi bi-gear me-2"></i> Pengaturan</a
       >
       {% endif %}
@@ -113,7 +113,7 @@
         </div>
         <div class="dropdown">
           <a
-            href="{{ url_for('profile') }}"
+            href="{{ url_for('pengaturan') }}"
             class="text-white text-decoration-none me-3">
           >
             <i class="bi bi-person-circle me-1"></i> {{ session['nama'] }}
