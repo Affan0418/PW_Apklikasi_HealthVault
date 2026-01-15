@@ -15,12 +15,12 @@
     <style>
       body {
         background: #f5f5f5;
-        display: flex; /* Menggunakan flex agar sidebar dan content sejajar */
+        display: flex;
         min-height: 100vh;
       }
       .sidebar {
         width: 240px;
-        background: #343a40; /* Warna lebih gelap agar kontras */
+        background: #343a40;
         color: #fff;
         position: fixed;
         height: 100vh;
@@ -48,7 +48,7 @@
       }
       .content {
         flex: 1;
-        margin-left: 240px; /* Harus sama dengan lebar sidebar */
+        margin-left: 240px;
         display: flex;
         flex-direction: column;
       }
@@ -99,8 +99,8 @@
 
       {% if session['role'] == 'admin' %}
       <a
-        href="/profile"
-        class="{{ 'active' if request.path == '/profile' }}"
+        href="{{ url_for('pengaturan') }}"
+        class="{{ 'active' if request.path == '/pengaturan' }}"
         ><i class="bi bi-gear me-2"></i> Pengaturan</a
       >
       {% endif %}
@@ -112,15 +112,17 @@
           <i class="bi bi-list d-md-none"></i>
         </div>
         <div class="dropdown">
+          
           <a
-            href="{{ url_for('pengaturan') }}"
-            class="text-white text-decoration-none me-3">
+            href="{{ url_for('profile') }}" 
+            class="text-white text-decoration-none me-3"
           >
             <i class="bi bi-person-circle me-1"></i> {{ session['nama'] }}
             <span class="badge bg-light text-primary ms-1 small"
               >{{ session['role']|upper }}</span
             >
           </a>
+          
           <a href="/logout" class="btn btn-sm btn-outline-light">
             <i class="bi bi-box-arrow-right"></i> Keluar
           </a>
