@@ -28,14 +28,23 @@
 
                     <div class="mb-3">
                         <label class="small text-muted d-block">Status Akun</label>
-                        <span class="badge bg-success">Active / Full Access</span>
+                        
+                        {% if session['role'] == 'admin' %}
+                            <span class="badge bg-success">Active / Full Access</span>
+                        {% else %}
+                            <span class="badge bg-info text-dark">Active / Limited Access</span>
+                        {% endif %}
+                        
                     </div>
 
+                    {% if session['role'] == 'admin' %}
                     <div class="d-grid mt-4">
                         <a href="/pengaturan" class="btn btn-outline-primary">
                             <i class="bi bi-gear"></i> Pergi ke Pengaturan
                         </a>
                     </div>
+                    {% endif %}
+                    
                 </div>
             </div>
         </div>
